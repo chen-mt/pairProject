@@ -4,8 +4,8 @@ import entity.Fraction;
 import service.Calculate;
 import util.Generator;
 import util.MyFile;
+import util.RPN;
 
-import java.util.List;
 import java.util.Map;
 
 public class Test {
@@ -35,7 +35,7 @@ public class Test {
     public void testIntArithmetic(){
         int num1, num2;
         num1 = 1; num2 = 3;
-        char operator = '÷';
+        String operator = "÷";
         Map map = calculate.intArithmetic(num1, num2, operator);
         System.out.println(num1 + " " + operator + " " + num2 + " = " + calculate.toString(map));
     }
@@ -47,28 +47,24 @@ public class Test {
     public void testFractionArithmetic(){
         Fraction fraction1 = new Fraction(1, 2);
         Fraction fraction2 = new Fraction(1, 2);
-        char operator = '÷';
+        String operator = "÷";
         Map map = calculate.fractionArithmetic(fraction1, fraction2, operator);
         System.out.println(fraction1.toString() + " " + operator + " " + fraction2.toString() + " = "
                 + calculate.toString(map));
     }
 
+    /**
+     * 测试将中缀表达式转换为后缀表达式
+     */
     @org.junit.Test
-    public void testLocation(){
-        char[] operator = {'+', '×', '×'};
-        int count = 3;
-        List<Integer> locations = calculate.location(operator, count);
-        for(int i: locations){
-            System.out.println(i + " ");
-        }
+    public void testToRPN(){
+        String exp = "4 + 12 × 3";
+        System.out.println("后缀表达式：" + RPN.toRPN(exp));
     }
 
     @org.junit.Test
     public void testCalculate(){
-        int[] num = {2, 4};
-        char[] operator = {'-'};
-        int count = 2;
-        String s = this.calculate.calculate(count, num, operator);
-        System.out.println("运算结果：" + s);
+        String exp = "4 + 12 × 3";
+        calculate.calculate(exp);
     }
 }

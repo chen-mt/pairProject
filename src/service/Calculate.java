@@ -1,11 +1,9 @@
 package service;
 
 import entity.Fraction;
+import util.RPN;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 算数运算类
@@ -15,22 +13,23 @@ public class Calculate {
 
     /**
      * 四则运算
-     * @param count 操作数的数目
-     * @param num 操作数数组
-     * @param operator 运算符数组
+     * @param exp 表达式
      * @return 运算结果
      */
-    public String calculate(int count, int[] num, char[] operator){
-        Map<String, Object> map = null;
-        if(count == 2){
-            map = intArithmetic(num[0], num[1], operator[0]);
-        }else if(count == 3){
-            // todo:
-            
-        }else{// 操作数=4
-
+    public String calculate(String exp){
+        // 将exp转为后缀表达式
+        exp = RPN.toRPN(exp);
+        Stack<String> elem = new Stack<>();
+        for(String s: exp.split(" ")){
+            System.out.print(s + " ");
+            if(RPN.OP_WEIGHT.containsKey(s)){
+                // todo: 为运算符，取出栈顶的两个元素计算并将结果压入栈
+            }else{
+                // 为操作数，入栈
+                elem.push(s);
+            }
         }
-        return toString(map);
+        return elem.pop();
     }
 
     /**
@@ -47,20 +46,20 @@ public class Calculate {
         return map.get("error").toString();
     }
 
-    /**
-     * 找出'×','÷'所在位置
-     * @param operator 运算符数组
-     * @param count 运算符的数目
-     * @return
-     */
-    public List<Integer> location(char[] operator, int count){
-        List<Integer> locations = new ArrayList();
-        for(int i = 0; i < count; i++){
-            if(operator[i] == '×' || operator[i] == '÷')
-                locations.add(i);
-        }
-        return locations;
-    }
+//    /**
+//     * 找出'×','÷'所在位置
+//     * @param operator 运算符数组
+//     * @param count 运算符的数目
+//     * @return
+//     */
+//    public List<Integer> location(char[] operator, int count){
+//        List<Integer> locations = new ArrayList();
+//        for(int i = 0; i < count; i++){
+//            if(operator[i] == '×' || operator[i] == '÷')
+//                locations.add(i);
+//        }
+//        return locations;
+//    }
 
 //    /**
 //     * 将字符串化为分数
@@ -90,16 +89,16 @@ public class Calculate {
      * @param num1 操作数1
      * @param num2 操作数2
      * @param operator 运算符
-     * @return 运算结果。如果结果为-1，表明输入的题目不符合规范。
+     * @return
      */
-    public Map<String, Object> intArithmetic(int num1, int num2, char operator){
+    public Map<String, Object> intArithmetic(int num1, int num2, String operator){
         Map<String, Object> map = new HashMap<>();
         int result;
         switch (operator){
-            case '+':
+            case "+":
                 result = num1 + num2;
                 break;
-            case '-':
+            case "-":
                 if(num1 >= num2){
                     result = num1 - num2;
                 }else{
@@ -107,10 +106,10 @@ public class Calculate {
                     return map;
                 }
                 break;
-            case '×':
+            case "×":
                 result = num1 * num2;
                 break;
-            case '÷':
+            case "÷":
             default:
                 // todo: 分母不能为0
                 if(num1 % num2 == 0){
@@ -131,9 +130,9 @@ public class Calculate {
      * @param fraction1 分数1
      * @param fraction2 分数2
      * @param operator 操作符
-     * @return 运算结果。如果结果为-1，表明输入的题目不符合规范。
+     * @return
      */
-    public Map<String, Object> fractionArithmetic(Fraction fraction1, Fraction fraction2, char operator){
+    public Map<String, Object> fractionArithmetic(Fraction fraction1, Fraction fraction2, String operator){
         Map<String, Object> map = new HashMap<>();
         // 获取分数的分子、分母
         int fraction1Numerator = fraction1.getNumerator();
@@ -143,11 +142,11 @@ public class Calculate {
         // 新分数的分子、分母
         int newNumerator, newDenominator;
         switch (operator){
-            case '+':
+            case "+":
                 newNumerator = fraction1Numerator * fraction2Denominator + fraction2Numerator * fraction1Denominator;
                 newDenominator = fraction1Denominator * fraction2Denominator;
                 break;
-            case '-':
+            case "-":
                 // 计算过程不能产生负数
                 if((newNumerator = fraction1Numerator * fraction2Denominator - fraction2Numerator * fraction1Denominator) < 0){
                     map.put("error", "计算过程中不能产生负数");
@@ -156,11 +155,11 @@ public class Calculate {
                     newDenominator = fraction1Denominator * fraction2Denominator;
                 }
                 break;
-            case '×':
+            case "×":
                 newNumerator = fraction1Numerator * fraction1Numerator;
                 newDenominator = fraction1Denominator * fraction2Denominator;
                 break;
-            case '÷':
+            case "÷":
             default:
                 // todo: 分母不能为0
                 newNumerator = fraction1Numerator * fraction2Denominator;

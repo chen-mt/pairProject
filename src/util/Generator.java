@@ -14,7 +14,7 @@ public class Generator {
      * @return 运算题目
      */
     public static String generate(int range){
-        char[] operators = {'+', '-', '×', '÷'};
+        String[] operators = {"+", "-", "×", "÷"};
         Random random = new Random();
         // 操作数的数目
         int count = random.nextInt(3) + 2;
@@ -25,7 +25,7 @@ public class Generator {
         num[2] = random.nextInt(range);
         num[3] = random.nextInt(range);
         // 运算符
-        char[] operator = new char[3];
+        String[] operator = new String[3];
         operator[0] = operators[random.nextInt(4)];
         operator[1] = operators[random.nextInt(4)];
         operator[2] = operators[random.nextInt(4)];
