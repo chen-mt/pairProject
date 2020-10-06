@@ -26,6 +26,7 @@ public class Calculate {
             map = intArithmetic(num[0], num[1], operator[0]);
         }else if(count == 3){
             // todo:
+            
         }else{// 操作数=4
 
         }
