@@ -19,7 +19,7 @@ public class Generator {
         // 操作数的数目
         int count = random.nextInt(3) + 2;
         // 操作数
-        int num[] = new int[4];
+        int[] num = new int[4];
         num[0] = random.nextInt(range);
         num[1] = random.nextInt(range);
         num[2] = random.nextInt(range);
@@ -35,6 +35,7 @@ public class Generator {
                 return num[0] + " " + operator[0] + " " + num[1];
             case 3:
                 return num[0] + " " + operator[0] + " " + num[1] + " " + operator[1] + " " + num[2];
+            case 4:
             default:
                 return num[0] + " " + operator[0] + " " + num[1] + " " + operator[1] + " " + num[2] + " " + operator[2] + " " + num[3];
         }

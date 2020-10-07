@@ -6,11 +6,9 @@ import util.Generator;
 import util.MyFile;
 import util.RPN;
 
-import java.util.Map;
-
 public class Test {
 
-    Calculate calculate = new Calculate();
+    private Calculate calculate = new Calculate();
 
     /**
      * 测试生成题目
@@ -36,8 +34,8 @@ public class Test {
         int num1, num2;
         num1 = 1; num2 = 3;
         String operator = "÷";
-        Map map = calculate.intArithmetic(num1, num2, operator);
-        System.out.println(num1 + " " + operator + " " + num2 + " = " + calculate.toString(map));
+        String s = calculate.intArithmetic(num1, num2, operator);
+        System.out.println(num1 + " " + operator + " " + num2 + " = " + s);
     }
 
     /**
@@ -48,9 +46,8 @@ public class Test {
         Fraction fraction1 = new Fraction(1, 2);
         Fraction fraction2 = new Fraction(1, 2);
         String operator = "÷";
-        Map map = calculate.fractionArithmetic(fraction1, fraction2, operator);
-        System.out.println(fraction1.toString() + " " + operator + " " + fraction2.toString() + " = "
-                + calculate.toString(map));
+        String s = calculate.fractionArithmetic(fraction1, fraction2, operator);
+        System.out.println(fraction1.toString() + " " + operator + " " + fraction2.toString() + " = " + s);
     }
 
     /**
@@ -62,9 +59,23 @@ public class Test {
         System.out.println("后缀表达式：" + RPN.toRPN(exp));
     }
 
+    /**
+     * 测试将字符串转换为分数
+     */
+    @org.junit.Test
+    public void testStrToFraction(){
+        String s = "2'3/8";
+        Fraction fraction = calculate.strToFraction(s);
+        System.out.println("分子：" + fraction.getNumerator());
+        System.out.println("分母：" + fraction.getDenominator());
+    }
+
+    /**
+     * 测试四则运算
+     */
     @org.junit.Test
     public void testCalculate(){
-        String exp = "4 + 12 × 3";
-        calculate.calculate(exp);
+        String exp = "1 ÷ 4 + 2 × 3";
+        System.out.println("运算结果：" + calculate.calculate(exp));
     }
 }
