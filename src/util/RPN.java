@@ -12,9 +12,7 @@ public class RPN {
 
     public static final Map<String, Integer> OP_WEIGHT = new HashMap<>();
 
-    /**
-     * 设置权重，只考虑加减乘除
-     */
+    // 设置权重，只考虑加减乘除
     static {
         OP_WEIGHT.put("+", 0);
         OP_WEIGHT.put("-", 0);
@@ -28,7 +26,7 @@ public class RPN {
      * @return 返回后缀表达式
      */
     public static String toRPN(String exp){
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         Stack<String> operators = new Stack();
         for(String s: exp.split(" ")){
             if(OP_WEIGHT.containsKey(s)){
@@ -37,16 +35,16 @@ public class RPN {
                 如果是，则将栈中的运算符弹出。否则，将遇到的操作符压入到栈中。
                  */
                 while (!operators.isEmpty() && (OP_WEIGHT.get(operators.peek()) >= OP_WEIGHT.get(s))){
-                    result.append(operators.pop() + " ");
+                    result.append(operators.pop()).append(" ");
                 }
                 operators.push(s);
             }else{
-                result.append(s + " ");
+                result.append(s).append(" ");
             }
         }
         // 弹出栈中的运算符
         while(operators.size() > 0){
-            result.append(operators.pop() + " ");
+            result.append(operators.pop()).append(" ");
         }
         return result.toString();
     }

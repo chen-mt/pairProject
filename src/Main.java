@@ -1,3 +1,4 @@
+import service.Calculate;
 import util.Generator;
 import util.MyFile;
 
@@ -9,18 +10,25 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("请输入生成题目的个数：");
         int num = sc.nextInt();
-        System.out.println();
         System.out.print("题目中数值（自然数、真分数和真分数分母）的范围：");
         int range = sc.nextInt();
-        System.out.println();
         sc.close();
 
-        while (num > 0){
-            String question = "运算题目" + num + "：" + Generator.generate(range);
-            // 将题目写入 Exercises.txt 文件
-            MyFile.write("Exercises.txt", question);
+        // 清空Exercises.txt,Answers.txt的内容
+        MyFile.clear("Exercises.txt");
+        MyFile.clear("Answers.txt");
 
-            num++;
+        Calculate calculate = new Calculate();
+        // 序号
+        int order = 1;
+        while (num > 0){
+            // 生成题目
+            String question = Generator.generate(range);
+            MyFile.write("Exercises.txt", order + ". " + question);
+            // 计算答案
+            String answer = calculate.calculate(question);
+            MyFile.write("Answers.txt", order + ". " + answer);
+            num--; order++;
         }
     }
 }

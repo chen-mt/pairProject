@@ -54,7 +54,7 @@ public class Fraction {
      * @param num2
      * @return 返回最大公约数
      */
-    public int divAlgorithm(int num1, int num2){
+    private int divAlgorithm(int num1, int num2){
         if(num2 == 0)
             return num1;
         return divAlgorithm(num2, num1 % num2);

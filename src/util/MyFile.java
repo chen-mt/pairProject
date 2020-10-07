@@ -28,4 +28,20 @@ public class MyFile {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 清空文件内容
+     * @param fileName 文件名
+     */
+    public static void clear(String fileName){
+        File file = new File(fileName);
+        if(!file.exists()) return;
+        try {
+            FileWriter fw = new FileWriter(file);
+            fw.write("");
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
