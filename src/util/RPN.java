@@ -34,11 +34,26 @@ public class RPN {
                 遍历栈中的运算符，判断栈顶的运算符的权重是否大于等于当前运算符的权重。
                 如果是，则将栈中的运算符弹出。否则，将遇到的操作符压入到栈中。
                  */
-                while (!operators.isEmpty() && (OP_WEIGHT.get(operators.peek()) >= OP_WEIGHT.get(s))){
+                while (!operators.isEmpty() && !"(".equals(operators.peek())
+                        && (OP_WEIGHT.get(operators.peek()) >= OP_WEIGHT.get(s))){
                     result.append(operators.pop()).append(" ");
                 }
                 operators.push(s);
+            }else if ("(".equals(s)){
+                // 为左括号，直接入栈
+                operators.push(s);
+            }else if (")".equals(s)){
+                // 为右括号，将栈中元素弹出入队，直到遇到左括号，左括号出栈，但不入队
+                while (!operators.isEmpty()){
+                    if("(".equals(operators.peek())){
+                        operators.pop();
+                        break;
+                    }else {
+                        result.append(operators.pop()).append(" ");
+                    }
+                }
             }else{
+                // 为操作数
                 result.append(s).append(" ");
             }
         }

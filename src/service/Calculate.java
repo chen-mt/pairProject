@@ -13,12 +13,10 @@ public class Calculate {
 
     /**
      * 四则运算
-     * @param exp 表达式
+     * @param exp 后缀表达式
      * @return 运算结果
      */
     public String calculate(String exp){
-        // 将exp转为后缀表达式
-        exp = RPN.toRPN(exp);
         Stack<String> elemStack = new Stack<>();
         for(String s: exp.split(" ")){
             if(RPN.OP_WEIGHT.containsKey(s)){
@@ -31,6 +29,11 @@ public class Calculate {
                 }else {
                     // 两个元素都是整数
                     result = intArithmetic(Integer.parseInt(nextElem), Integer.parseInt(firstElem), s);
+                }
+                // 表达式不规范
+                if(result.equals("-1")) {
+                    elemStack.clear();
+                    return "error";
                 }
                 // 运算结果入栈顶
                 elemStack.push(result);
@@ -99,7 +102,8 @@ public class Calculate {
                 break;
             case "÷":
             default:
-                // todo: 分母不能为0
+                // 分母不能为0
+                if(num2 == 0) return String.valueOf(-1);
                 if(num1 % num2 == 0){
                     result = num1 / num2;
                 }else {
@@ -140,14 +144,15 @@ public class Calculate {
                 }
                 break;
             case "×":
-                newNumerator = fraction1Numerator * fraction1Numerator;
+                newNumerator = fraction1Numerator * fraction2Numerator;
                 newDenominator = fraction1Denominator * fraction2Denominator;
                 break;
             case "÷":
             default:
-                // todo: 分母不能为0
                 newNumerator = fraction1Numerator * fraction2Denominator;
                 newDenominator = fraction1Denominator * fraction2Numerator;
+                // 分母不能为0
+                if(newDenominator == 0) return String.valueOf(-1);
         }
 
         // 运算结果为整数

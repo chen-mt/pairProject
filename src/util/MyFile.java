@@ -23,6 +23,7 @@ public class MyFile {
             }
             FileWriter fw = new FileWriter(file, true);
             fw.write(s + "\n");
+            fw.flush();
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,6 +40,7 @@ public class MyFile {
         try {
             FileWriter fw = new FileWriter(file);
             fw.write("");
+            fw.flush();
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();

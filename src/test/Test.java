@@ -15,7 +15,7 @@ public class Test {
      */
     @org.junit.Test
     public void testGenerator(){
-        System.out.println(Generator.generate(10));
+        System.out.println(Generator.generate(5));
     }
 
     /**
@@ -55,7 +55,7 @@ public class Test {
      */
     @org.junit.Test
     public void testToRPN(){
-        String exp = "4 + 12 × 3";
+        String exp = "8 × ( 5 ÷ 7 )";
         System.out.println("后缀表达式：" + RPN.toRPN(exp));
     }
 
@@ -75,7 +75,11 @@ public class Test {
      */
     @org.junit.Test
     public void testCalculate(){
-        String exp = "1 ÷ 4 + 2 × 3";
-        System.out.println("运算结果：" + calculate.calculate(exp));
+        // 8 5
+        String exp = "8 × ( 5 ÷ 7 × 7 )";
+        String s = RPN.toRPN(exp);
+        System.out.println("后缀表达式：" + s);
+        System.out.println("运算结果：" + calculate.calculate(s));
     }
+
 }
